@@ -1,8 +1,8 @@
 PyLipID - Analysis of Protein–Lipid Interactions from Molecular Dynamics
 ========================================================================
 
-.. image:: https://github.com/pstansfeld/PyLipID/actions/workflows/ci.yml/badge.svg
-   :target: https://github.com/pstansfeld/PyLipID/actions/workflows/ci.yml
+.. image:: https://github.com/stansfeldlab/PyLipID/actions/workflows/ci.yml/badge.svg
+   :target: https://github.com/stansfeldlab/PyLipID/actions/workflows/ci.yml
 .. image:: https://img.shields.io/pypi/v/PyLipID
    :target: https://pypi.org/project/pylipid/
 .. image:: https://img.shields.io/pypi/pyversions/PyLipID
@@ -38,7 +38,7 @@ From PyPI::
 
 From source::
 
-    git clone https://github.com/pstansfeld/PyLipID
+    git clone https://github.com/stansfeldlab/PyLipID
     cd PyLipID
     pip install .
 
@@ -125,7 +125,7 @@ Performance
 -----------
 - collect_residue_contacts computes distances in large batches instead of once per lipid, and shares
   the batches between worker processes that read the coordinates from shared memory (``num_cpus``;
-  based on Alex Moger's parallel contacts in `PR #1 <https://github.com/pstansfeld/PyLipID/pull/1>`_).
+  based on Alex Moger's parallel contacts in `PR #1 <https://github.com/stansfeldlab/PyLipID/pull/1>`_).
   Results are identical to the serial calculation; on a
   2 x 2,000-frame system contacts take 8 s instead of 40 s.
 - Bound-pose scoring evaluates the kernel density estimate in numpy (~20x faster; same scores to

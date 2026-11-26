@@ -49,11 +49,11 @@ PyLipID can be installed with `pip <https://pip.pypa.io>`_
 
   $ pip install pylipid
 
-Alternatively, you can grab the latest source code from `GitHub <https://github.com/pstansfeld/PyLipID.git>`_:
+Alternatively, you can grab the latest source code from `GitHub <https://github.com/stansfeldlab/PyLipID.git>`_:
 
 .. code-block:: bash
 
-  $ git clone https://github.com/pstansfeld/PyLipID.git
+  $ git clone https://github.com/stansfeldlab/PyLipID.git
   $ cd PyLipID
   $ pip install .
 
@@ -71,7 +71,7 @@ License
 =======
 
 PyLipID is made available under the MIT License. For more details,
-see `LICENSE.txt <https://github.com/pstansfeld/PyLipID/blob/master/LICENSE.txt>`_.
+see `LICENSE.txt <https://github.com/stansfeldlab/PyLipID/blob/master/LICENSE.txt>`_.
 
 
 Table of Contents
