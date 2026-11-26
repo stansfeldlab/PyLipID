@@ -91,7 +91,7 @@ python pylipid.py -f ./run_1/md.xtc ./run_2/md.xtc -c ./run_1/protein_lipids.gro
   -cutoffs 0.55 1.0 -lipids POPC CHOL POP2 -nprot 1 -save_dataset
 ```
 
-Coarse-grained force fields often make phospholipid tails too flexible because of smoothened energy potentials. This can lead to poor characterization of binding sites. When tail behavior is not the main focus, it is better to focus on headgroup binding. Use the `-lipid_atoms` flag to specify which lipid atoms or beads are used for the calculation. The following example calculates PIP2 binding in MARTINI 2 (named POP2 in this force field) using only the headgroup beads:
+Coarse-grained force fields can make phospholipid tails overly flexible because their energy landscapes are smoother. This can make binding sites harder to characterize. When tail behavior is not the focus, consider analyzing headgroup binding instead. Use the `-lipid_atoms` flag to specify which lipid atoms or beads to include. The following example analyzes PIP2 binding in MARTINI 2 (named POP2 in this force field) using only the headgroup beads:
 
 ```bash
 python pylipid.py -f ./run_1/md.xtc ./run_2/md.xtc -c ./run_1/protein_lipids.gro ./run_2/protein_lipids.gro \
@@ -144,11 +144,3 @@ python pylipid.py -f ./run_1/md.xtc ./run_2/md.xtc -c ./run_1/protein_lipids.gro
 - Anna Duncan
 - Robin Corey
 - Bertie Ansell
-
-## Thanks for reading to the end
-
-Writing scripts is about fixing one bug after another.
-
-Be brave, be real, and keep going!
-
-![GitHub Logo](https://github.com/wlsong/wlsong/blob/master/resources/dino.gif)

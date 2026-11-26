@@ -45,7 +45,7 @@ def cal_contact_residues(dist_matrix, cutoff):
     frame_id_set : list
         A list of frame indices for contacting molecules.
 
-    residue_id_set : lsit
+    residue_id_set : list
         A list of contacting molecules indices.
 
     Examples

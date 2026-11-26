@@ -23,7 +23,7 @@ __all__ = ["sparse_corrcoef"]
 
 
 def sparse_corrcoef(A, B=None):
-    """Calculate correlation coeffient matrix using sparse matrix"""
+    """Calculate a correlation coefficient matrix using sparse matrices."""
     if B is not None:
         A = sparse.vstack((A, B), format='csr')
     A = A.astype(np.float64)

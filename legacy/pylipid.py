@@ -42,72 +42,72 @@ np.seterr(all='ignore')
 ###################################
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", nargs="+", metavar="./run/md.xtc", help="List of trajectories, seperated by space, \
-                     Used by mdtraj.load(). Supports trajectory formats e.g. xtc, pdb, dcd, dtr, etc that are supported by mdtraj.")
+parser.add_argument("-f", nargs="+", metavar="./run/md.xtc", help="List of trajectories, separated by spaces. \
+                     Used by mdtraj.load(). Supports trajectory formats such as xtc, pdb, dcd, and dtr.")
 parser.add_argument("-c", nargs="+", metavar="./run/system.gro", \
                     help="List of topology files. Most trajectory formats do not contain topology information, thus PyLipID needs topology\
                     files to obtain such information. The order of listed topology files should be consistent with the trajectory list \
                     provided by -f.")
-parser.add_argument("-stride", default=1, metavar=1, help="Striding through trajectories. Only every stride-th will be analized." )
+parser.add_argument("-stride", default=1, metavar=1, help="Analyze every stride-th frame of each trajectory.")
 parser.add_argument("-dt", default=None, metavar="None", help="The time interval between two adjacent frames in trajectories. \
-                    If not specified, the mdtraj will deduce from the trajectories. This is requierd for trajectories that do not \
-                    have time stamps.")
+                    If not specified, MDTraj will infer it from the trajectories when possible. This is required for trajectories without \
+                    timestamps.")
 parser.add_argument("-tu", default="us", choices=["ns", "us"], metavar="us", \
                     help="Time unit. It will convert all the calculated values to the specified time unit.")
 parser.add_argument("-save_dir", default=None, metavar="None", help="Directory to put all the generated results. \
-                    The directory will be created if not existing. PyLipID will use the current working directory \
+                    The directory will be created if it does not exist. PyLipID will use the current working directory \
                     if not specified.")
 parser.add_argument("-cutoffs", nargs=2, default=(0.55, 1.0), metavar=(0.55, 1.0), \
-                    help="Two cutoffs seperated by space. In unit of nm. Default is 0.55 1.0. The double cutoffs are used to define \
+                    help="Two cutoffs, separated by a space and measured in nm. Default is 0.55 1.0. The dual cutoffs define \
                     the start and the end of a continuous lipid interaction. A continuous lipid contact with a given residue \
                     starts when the lipid moves to the given residue closer than the smaller cutoff; and ends when the lipid \
-                    moves farther than the larger cutoff. The standard single cutoff can be acheived by setting the same value \
+                    moves farther than the larger cutoff. A single-cutoff scheme can be achieved by setting the same value \
                     for both cutoffs.")
 parser.add_argument("-lipids", nargs="+", metavar="POPC", default="POPC CHOL POP2", \
-                    help="Lipid species to check, seperated by space. Should be consistent with residue names in your trajectories.")
+                    help="Lipid species to check, separated by spaces. Names should match residue names in your trajectories.")
 parser.add_argument("-lipid_atoms", nargs="+", metavar="PO4", default=None, \
-                    help="Lipid atoms to define binding interactions, seperated by space. Should be consistent with the atom names \
+                    help="Lipid atoms used to define binding interactions, separated by spaces. Names should match the atom names \
                     in your trajectories.")
 parser.add_argument("-radii", nargs="+", default=None, metavar="BB:0.26 SC1:0.23", help="Change/Define the radii of atoms/beads \
                     that are used for the calculation of binding site surface area. Values need to be in the unit of nm. The supported syntax is \
                     ATOM_NAME:RADIUS, e.g. BB:0.26, which defines the radius of BEAD BB as 0.26 nm; or CA:0.12 which defines \
                     the radius of ATOM CA as 0.12 nm. For atomistic simulations, the default radii are taken from \
                     mdtraj https://github.com/mdtraj/mdtraj/blob/master/mdtraj/geometry/sasa.py#L56. For coarse-grained \
-                    simulations, PyLIpID defines the radius of the MARTINI 2 beads of BB as 0.26 nm and SC1/2/3 as 0.23 nm.")
+                    simulations, PyLipID defines the MARTINI 2 bead radii as 0.26 nm for BB and 0.23 nm for SC1/2/3.")
 parser.add_argument("-nprot", default=1, metavar="1", \
                     help="num. of proteins (or chains) in the simulation system. The calculated results will be averaged among these proteins \
                     (or chains). The proteins (or chains) need to be identical, otherwise the averaging will fail.")
 parser.add_argument("-resi_offset", default=0, metavar="0", help="Shifting the residue index. It is useful if you need to change the residue \
-                    index in your trajectories. For example, to change the residue indeces from 5,6,7,..., to 10,11,12,..., use -resi_offset 4. \
-                    All the outputs, including plotted figures and saved coordinates, will be changed by this.")
+                    index in your trajectories. For example, to shift residue indices from 5, 6, 7, ... to 10, 11, 12, ..., use -resi_offset 4. \
+                    All outputs, including plots and saved coordinates, will be shifted accordingly.")
 parser.add_argument("-resi_list", nargs="+", default=[], metavar="1-10 20-30", help="The indices of residues on which the calculations are done. \
                     This option is useful for those proteins with large regions that don't require calculation. Skipping those calculations could \
                     save time and memory. Accepted syntax include 1/ defining a range, like 1-10 (both ends included); 2/ single residue index, \
-                    like 25 26 17. The selections are seperated by space. For example, -resi_list 1-10 20-30 40 45 46 means selecting \
+                    like 25 26 17. Separate selections with spaces. For example, -resi_list 1-10 20-30 40 45 46 selects \
                     residues 1-10, 20-30, 40, 45 and 46 for calculation. The residue indices are not affected by -resi_offset, i.e. they \
                     should be consistent with the indices in your trajectories.")
-parser.add_argument("-nbootstrap", default=10, metavar=10, help="The number of bootstrappings for koff calculation. \
+parser.add_argument("-nbootstrap", default=10, metavar=10, help="The number of bootstrap samples for koff calculation. \
                     The default is 10. The larger the number, the more time-consuming the calculation will be. The bootstrapping results \
-                    are ploted in gray lines in the koff plot.")
+                    are plotted as gray lines in the koff plot.")
 parser.add_argument("-save_dataset", nargs="?", default=True, const=True, metavar="True", help="Save dataset in Pickle. Default is True")
-parser.add_argument("-n_binding_poses", default=5, metavar=5, help="The num. of top-scored lipid binding poses to be written out for each binding \
+parser.add_argument("-n_binding_poses", default=5, metavar=5, help="The number of top-scored lipid binding poses to write for each binding \
                     site. The default is 5. A scoring function is generated for each binding site based on the probability density functions (PDF) of \
                     lipid atoms/beads. Score = sum(PDF(atom_i) * Weight(atom_i)) for atom_i in the lipid molecule. The atom/bead weights Weight(atom_i) \
                     are specified via the flag -score_weights.")
 parser.add_argument("-save_pose_format", default="gro", metavar="gro", help="The format the generated lipid binding poses are written in. This operation \
                     saving poses is carried out by mdtraj.save(), thus supports the formats that are supported by mdtraj. ")
-parser.add_argument("-score_weights", nargs="+", default=None, metavar="PO4:1 C1:1", help="The weight of lipdi atoms/beads in the scoring function. \
-                    The bounds poses of each binding site are scored based on the scoring function Score = sum(PDF(atom_i) * Weight(atom_i)) \
+parser.add_argument("-score_weights", nargs="+", default=None, metavar="PO4:1 C1:1", help="The weights of lipid atoms/beads in the scoring function. \
+                    The bound poses for each binding site are scored using Score = sum(PDF(atom_i) * Weight(atom_i)) \
                     for atom_i in the lipid molecule.")
 parser.add_argument("-letter_map", nargs="+", default=None, metavar="ARG:K GLY:G", help="Map the three-letter amino acids to one letter. This map is \
                     used in making logomaker figures (https://logomaker.readthedocs.io/en/latest/). The common 20 amino acids are defined \
                     by this script. Users need to use this flag to define maps for uncommon amino acids in their systems.")
 parser.add_argument("-pdb", default=None, metavar="None", help="Provide a PDB structure onto which the binding site information will be mapped. \
                     Using this flag will generate a 'show_binding_site_info.py' file in the -save_dir directory, which allows users to check the \
-                    mapped binding site information in PyMol. Users can run the generated script by 'python show_binding_site_info.py' \
-                    to open such a PyMol session.")
-parser.add_argument("-BS_size", default=4, metavar=4, help="Size of binding sites, i.e. at least how many number of residues should be included to define a binding site. \
-                    Only binding sites of number of residues equal or more than the provided value will be recorded. The default is 4.")
+                    mapped binding-site information in PyMOL. Run the generated script with 'python show_binding_site_info.py' \
+                    to open the PyMOL session.")
+parser.add_argument("-BS_size", default=4, metavar=4, help="Minimum number of residues required to define a binding site. \
+                    The default is 4.")
 
 
 args = parser.parse_args(sys.argv[1:])
@@ -667,7 +667,7 @@ Koff:          Koff of lipid with the given residue (in unit of ({timeunit})^(-1
             sigma_sampled = cal_sigma(duration_sampled, len(duration_sampled), np.max(self.T_total), delta_t_range)
             hist_values_sampled = np.array([sigma_sampled[delta_t] for delta_t in delta_t_range])
             if sample_idx == 0:
-                axHisty.plot(delta_t_range, hist_values_sampled, color="gray", alpha=0.5, label="Boostrapping")
+                axHisty.plot(delta_t_range, hist_values_sampled, color="gray", alpha=0.5, label="Bootstrapping")
             else:
                 axHisty.plot(delta_t_range, hist_values_sampled, color="gray", alpha=0.5)
             restime_sampled, koff_sampled, r_squared_sampled, params_sampled = cal_restime_koff(sigma_sampled, initial_guess)
