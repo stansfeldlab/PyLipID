@@ -47,7 +47,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/pstansfeld/PyLipID"
-Documentation = "https://pylipid.readthedocs.io"
+Documentation = "https://stansfeldlab.github.io/PyLipID/"
 "Bug Tracker" = "https://github.com/pstansfeld/PyLipID/issues"
 
 [tool.setuptools.dynamic]

@@ -16,7 +16,7 @@ Molecular Dynamics (MD) simulations. It supports coarse-grained and all-atom
 simulations, handles formats supported by MDTraj, and works in scripts or
 Jupyter notebooks.
 
-Documentation: https://pylipid.readthedocs.io
+Documentation: https://stansfeldlab.github.io/PyLipID/
 
 Features
 ========

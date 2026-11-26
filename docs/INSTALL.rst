@@ -25,7 +25,7 @@ recommend using the package installer pip:
   $ pip install pylipid
 
 If you know what you are doing and want to build from the source, the package is also available for
-download on Github via:
+download on GitHub via:
 
 .. code-block:: bash
 
