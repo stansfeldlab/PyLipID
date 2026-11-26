@@ -54,9 +54,9 @@ for versions later than 1.4. Please update PyLipID to the latest version ::
                   # defined by mdtraj (https://github.com/mdtraj/mdtraj/blob/master/mdtraj/geometry/sasa.py#L56).
                   # The radii of MARTINI 2.2 beads were included in PyLipID.
 
-    pdb_file_to_map = None   # if a pdb coordinate of the receptor is provided, a python script
+    pdb_file_to_map = None   # if a PDB coordinate of the receptor is provided, a Python script
                              # "show_binding_site_info.py" will be generated which maps the binding
-                             # site information to the structure in PyMol. As PyMol cannot recognize
+                             # site information to the structure in PyMOL. As PyMOL cannot recognize
                              # coarse-grained structures, an atomistic structure of the receptor is needed.
 
     fig_format = "pdf"  # format for all pylipid produced figures. Allow for formats that are supported by
