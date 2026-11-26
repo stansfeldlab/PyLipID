@@ -771,7 +771,7 @@ class LipidInteraction:
         :math:`k_{off}` plot.
 
         The calculation of koff for residues can be time-consuming, thus PyLipID uses python multiprocessing to
-        parallize the calculation. The number of CPUs used for multiprocessing can be specificed, otherwise all the
+        parallelize the calculation. The number of CPUs used for multiprocessing can be specified; otherwise, all the
         available CPUs will be used by default.
 
         Parameters
@@ -1223,7 +1223,7 @@ class LipidInteraction:
         with binding site.
 
         The calculation of koff for binding sites can be time-consuming, thus PyLipID uses python multiprocessing to
-        parallize the calculation. The number of CPUs used for multiprocessing can be specificed, otherwise all the
+        parallelize the calculation. The number of CPUs used for multiprocessing can be specified; otherwise, all the
         available CPUs will be used by default.
 
         Parameters
@@ -1339,9 +1339,57 @@ class LipidInteraction:
                         score_weights=None, kde_bw=0.15, pca_component=0.90, plot_rmsd=True, save_dir=None,
                         eps=None, min_samples=None, metric="euclidean",
                         fig_close=False, fig_format="pdf", num_cpus=None):
-        r"""Analyze bound poses for binding sites.
-        
-        (Docstring unchanged — omitted here for brevity)
+        r"""Rank and cluster bound lipid poses for selected binding sites.
+
+        Bound poses are collected from the trajectories, ranked by their probability
+        density, and clustered using DBSCAN or KMeans. Coordinate files are written
+        under ``Bound_Poses_{lipid}`` in the selected output directory.
+
+        Parameters
+        ----------
+        binding_site_id : int or array-like of int, optional
+            Binding-site ID or IDs to analyze. If ``None``, analyze all binding sites.
+        n_top_poses : int, default=3
+            Maximum number of top-ranked poses to save for each site. Set to ``0`` to
+            skip pose scoring and clustering.
+        n_clusters : positive int or "auto", default="auto"
+            Use DBSCAN when set to ``"auto"``; otherwise, use KMeans with the specified
+            number of clusters.
+        pose_format : str, default="gro"
+            Coordinate format for saved poses. Must be supported by MDTraj.
+        score_weights : dict, optional
+            Weights for lipid atoms in the pose-scoring function, keyed by atom name.
+            Unspecified atoms use a weight of ``1``.
+        kde_bw : float, default=0.15
+            Bandwidth used to estimate the probability density for pose scoring.
+        pca_component : int or float, default=0.90
+            Number of PCA components to retain, or the fraction of variance to retain
+            when set between 0 and 1.
+        plot_rmsd : bool, default=True
+            Whether to save a violin plot of the pose RMSD values.
+        save_dir : str or path-like, optional
+            Parent directory for the output. If omitted, use the object's default
+            output directory.
+        eps : float, optional
+            ``eps`` parameter for DBSCAN.
+        min_samples : int, optional
+            ``min_samples`` parameter for DBSCAN.
+        metric : str, default="euclidean"
+            Distance metric used by DBSCAN.
+        fig_close : bool, default=False
+            Whether to close the RMSD figure after saving it.
+        fig_format : str, default="pdf"
+            File format for the RMSD plot.
+        num_cpus : int, optional
+            Number of worker processes to use. If omitted, use the available CPUs.
+
+        Returns
+        -------
+        pose_traj : dict
+            Mapping from binding-site IDs to MDTraj trajectories containing the
+            collected bound poses.
+        pose_rmsd_data : pandas.DataFrame
+            Per-pose RMSD values in nm, with one column per binding site.
         """
         # Ensure required upstream steps are done
         self._check_calculation("Binding Site ID", self.compute_binding_nodes, print_data=False)
@@ -1645,7 +1693,7 @@ class LipidInteraction:
         pandas.DataFrame is saved in csv format.
 
         The data will be saved under the directory specified by ``save_dir``. If None is given, a directory of
-        Dataset_{lipid} will be created under the root directory initiated at the begining of the calculation and used to
+        Dataset_{lipid} will be created under the root directory initialized at the beginning of the calculation and used to
         store the dataset.
 
         Parameters
@@ -1724,19 +1772,19 @@ class LipidInteraction:
         return
 
     def save_pymol_script(self, pdb_file, save_dir=None):
-        """Save a pymol script that maps interactions onto protein structure in PyMol.
+        """Save a PyMOL script that maps interactions onto a protein structure.
 
-        This method will save a python script, named ``show_binding_site_info.py``,  which opens a PyMol session and maps
+        This method saves a Python script named ``show_binding_site_info.py`` that opens a PyMOL session and maps
         the binding site information to the receptor coordinates in that session. The receptor coordinate is provided
-        through the parameter ``pdb_file``. As PyMol only recognize atomistic structures, it needs a receptor atomistic
+        through the parameter ``pdb_file``. As PyMOL only recognizes atomistic structures, this requires an atomistic receptor
         structure before coarse-graining for those coarse-grained simulations. For the MARTINI simulations, the receptor
         atomistic coordinate can be the one used by `martinize.py`, which is a python script that converts atomistic
-        structures to MARTINI corase-grained models. Regardless of the simulation models, the provided receptor atomistic
+        structures to MARTINI coarse-grained models. Regardless of the simulation model, the provided atomistic receptor
         coordinates should have the same topology as in the simulations.
 
-        In the PyMol session, residues from the same binding sites are shown in the same color and shown in spheres with
-        scales corresponding to their lipid residence times. This PyMol session can provide a quick overview of the binding
-        sites and provide a better understanding of the structural details.
+        In the PyMOL session, residues from the same binding site are shown in the same color and as spheres scaled
+        according to their lipid residence times. This session provides a quick overview of the binding
+        sites and a better understanding of their structural context.
 
         By default, this script is saved under the directory Dataset_{lipid}, together with the file Dataset.csv, from
         which the script reads the interaction data. The directory for storing the script can be changed by providing a
@@ -1753,7 +1801,7 @@ class LipidInteraction:
         See Also
         --------
         pylipid.util.write_pymol_script
-            Write Python script that opens a PyMol session with binding site information.
+            Write a Python script that opens a PyMOL session with binding-site information.
 
         """
         script_dir = check_dir(save_dir) if save_dir is not None else \
@@ -1766,9 +1814,9 @@ class LipidInteraction:
         return
 
     def plot(self, item, save_dir=None, gap=200, fig_close=False, fig_format="pdf"):
-        """Assisting function for plotting interaction data.
+        """Helper function for plotting interaction data.
 
-        This assiting function can make a couple of plots:
+        This function can create several plots:
             - ``Residence Time``: plot residue residence times as a function of residue index.
             - ``Duration``: plot residue lipid durations as a function of residue index.
             - ``Occupancy``: plot residue lipid occupancies as a function of residue index.
@@ -1834,7 +1882,7 @@ class LipidInteraction:
             residue_index = np.array([int(re.findall("^[0-9]+", residue)[0]) for residue in self._residue_list])
             plot_corrcoef(self.interaction_corrcoef, residue_index, fn=os.path.join(figure_dir,
                                                                                     f"CorrCoef.{fig_format}"),
-                          title="{} Correlation Coeffient".format(self._lipid), fig_close=fig_close)
+                          title="{} Correlation Coefficient".format(self._lipid), fig_close=fig_close)
 
         return
 

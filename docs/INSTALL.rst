@@ -29,6 +29,6 @@ download on GitHub via:
 
 .. code-block:: bash
 
-  $ git clone https://github.com/pstansfeld/PyLipID.git
+  $ git clone https://github.com/stansfeldlab/PyLipID.git
   $ cd PyLipID
   $ pip install .

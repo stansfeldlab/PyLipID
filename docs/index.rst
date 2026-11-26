@@ -1,19 +1,17 @@
 
 ==========================================================
-PyLipID - A Python Package For Lipid Interactions Analysis
+PyLipID: A Python package for analyzing lipid interactions
 ==========================================================
 
-PyLipID is a python package for analyzing lipid interactions with membrane proteins from
-Molecular Dynamics Simulations. PyLipID has the following main features, please check out
-the tutorials for examples and the documentations for the API functionalities:
+PyLipID is a Python package for analyzing lipid interactions with membrane proteins in
+molecular dynamics simulations. Its main features include:
 
-    * Detection of binding sites via calculating community structures in the interactions networks.
-    * Calculation of lipid koff and residence time for interaction with binding sites and residues.
-    * Analysis of lipid interactions with binding sites and residues using a couple of metrics.
-    * Generation of representative bound poses for binding sites.
-    * Analysis of bound poses for binding sites via automated clustering scheme.
-    * Adoption of a dual-cutoff scheme to overcome the 'rattling in cage' effect of coarse-grained simulations.
-    * Generation of manuscript-ready figures for analysis.
+    * Detection of binding sites through community analysis of interaction networks.
+    * Calculation of lipid dissociation rates (koff) and residence times at binding sites and residues.
+    * Analysis of lipid interactions using multiple metrics.
+    * Generation and clustering of representative bound poses.
+    * A dual-cutoff scheme to address the "rattling-in-the-cage" effect in coarse-grained simulations.
+    * Generation of publication-ready figures.
 
 
 Citation |DOI for Citing PyLipID|
@@ -49,11 +47,11 @@ PyLipID can be installed with `pip <https://pip.pypa.io>`_
 
   $ pip install pylipid
 
-Alternatively, you can grab the latest source code from `GitHub <https://github.com/pstansfeld/PyLipID.git>`_:
+Alternatively, you can grab the latest source code from `GitHub <https://github.com/stansfeldlab/PyLipID.git>`_:
 
 .. code-block:: bash
 
-  $ git clone https://github.com/pstansfeld/PyLipID.git
+  $ git clone https://github.com/stansfeldlab/PyLipID.git
   $ cd PyLipID
   $ pip install .
 
@@ -61,17 +59,17 @@ Alternatively, you can grab the latest source code from `GitHub <https://github.
 Usage
 =====
 
-The :doc:`tutorial` is the place to go to learn how to use the PyLipID. The :doc:`api/index`
-provides API-level documentation.
+See the :doc:`tutorial` to learn how to use PyLipID. The :doc:`api/index`
+provides API documentation.
 
-A no-brainer demo script is available at :doc:`demo` to run PyLipID with all the analysis.
+The :doc:`demo` provides a complete example of the analysis workflow.
 
 
 License
 =======
 
 PyLipID is made available under the MIT License. For more details,
-see `LICENSE.txt <https://github.com/pstansfeld/PyLipID/blob/master/LICENSE.txt>`_.
+see `LICENSE.txt <https://github.com/stansfeldlab/PyLipID/blob/master/LICENSE.txt>`_.
 
 
 Table of Contents

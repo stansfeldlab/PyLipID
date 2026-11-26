@@ -3,8 +3,8 @@
 Demo
 ====
 
-Here we provide a no-brainer demo script for lipid interaction analysis using PyLipID. This script works
-for versions later than 1.4. Please update PyLipID to the latest version ::
+This example demonstrates lipid interaction analysis using PyLipID 1.4 or later.
+For the latest features, install the current version of PyLipID ::
 
     import numpy as np
     import matplotlib.pyplot as plt

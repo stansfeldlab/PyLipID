@@ -46,9 +46,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/pstansfeld/PyLipID"
+Homepage = "https://github.com/stansfeldlab/PyLipID"
 Documentation = "https://stansfeldlab.github.io/PyLipID/"
-"Bug Tracker" = "https://github.com/pstansfeld/PyLipID/issues"
+"Bug Tracker" = "https://github.com/stansfeldlab/PyLipID/issues"
 
 [tool.setuptools.dynamic]
 version = { attr = "pylipid._version.__version__" }

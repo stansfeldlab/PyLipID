@@ -33,7 +33,7 @@ jobs:
       - name: Install package and documentation dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e . "sphinx>=7" nbsphinx sphinx_rtd_theme furo
+          python -m pip install -e . "sphinx>=7" nbsphinx sphinx_rtd_theme furo ipython
 
       - name: Build documentation
         run: |
@@ -57,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

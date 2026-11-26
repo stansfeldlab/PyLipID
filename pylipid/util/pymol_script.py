@@ -14,7 +14,7 @@
 # copies or substantial portions of the Software.
 ##############################################################################
 
-"""This module contains functions that write PyMol scripts."""
+"""This module contains functions that write PyMOL scripts."""
 
 import os
 from shutil import copyfile
@@ -23,25 +23,23 @@ __all__ = ["write_pymol_script"]
 
 
 def write_pymol_script(fname, pdb_fname, data_fname, lipid, n_binding_site):
-    """Write Python script that opens a PyMol session with binding site information.
+    """Write a Python script that opens a PyMOL session with binding-site information.
 
-    This function will generate a Python script which opens a PyMol session in which the binding site information
+    This function generates a Python script that opens a PyMOL session in which the binding-site information
     stored in the interaction data file (a csv file provided by ``data_fname``) is mapped onto the receptor structure
-    (loaded from a PDB coordinate file provided by ``pdb_fname``). In this PyMol session, residues from the same binding
+    (loaded from a PDB coordinate file provided by ``pdb_fname``). In this PyMOL session, residues from the same binding
     site are colored in the same color and shown in spheres with scales corresponding to their residence times.
 
     The PDB coordinate of the receptor need to have the same topology as in the simulations (i.e. the same as shown in
-    the ``data_fname``). A warning will show up and break the PyMol seesion, if residue names are different or residue
-    indices are different.
+    the ``data_fname``). The script exits with a warning if residue names or indices differ.
 
-    As PyMol only recognizes atomistic structures, the PDB coordinates of the receptor (provided by ``pdb_fname``) needs
-    to be an atomistic structure. For coarse-grained simulation results, this ``pdb_fname`` needs to be a PDB coordinates
-    before the coarse-graining step.
+    PyMOL recognizes only atomistic structures, so the receptor coordinates provided by ``pdb_fname`` must be atomistic.
+    For coarse-grained simulation results, provide the receptor structure from before coarse-graining.
 
     Parameters
     ----------
     fname : str
-        The filename of the PyMol script to be written.
+        The filename of the PyMOL script to be written.
     pdb_fname : str
         The PDB coordinate file of the receptor.
     data_fname : str

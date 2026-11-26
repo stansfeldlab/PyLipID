@@ -3,11 +3,9 @@
 Tutorials
 =========
 
-We provide a collection of Jupyter notebook tutorials that provide either a complete walk-through of the application
-or explanations of some important functions.
+These Jupyter notebooks cover the complete workflow and explain selected functions and concepts.
 
-For those who are impatient, we have provided a no-brainer demo script at :doc:`demo`, which runs PyLipID with all
-the analysis.
+The :doc:`demo` provides a complete example of running the PyLipID analysis workflow.
 
 If you find mistakes or have suggestions for the tutorials, please file issues or pull requests on GitHub to help us
 improve.
